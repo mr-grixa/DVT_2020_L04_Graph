@@ -75,9 +75,8 @@ namespace DVT_2020_L04_Graph
                         //}
                     }
                     
-                    int[] frame = new int [19];
-                    List <int[]> allData=new List<int[]>();
-                    List<Frame> frames=new List<Frame>();
+                    byte[] frame = new byte[19];
+                    List<CANDumpData> frames=new List<CANDumpData>();
                     int I = 0;
                     for (int i =0; i < bytes.Length; i++)
                     {
@@ -85,11 +84,24 @@ namespace DVT_2020_L04_Graph
                         {
                             I = 0;
                             i++;
-                            int time = frame[0] * 255 + frame[1];
-                            int data1 = frame[7] * 255 + frame[8];
-                            int data2 = frame[9] * 255 + frame[10];
-                            allData.Add(frame);
-                            frames.Add(new Frame(time, data1, data2));
+                            BitConverter.ToInt32(bytes,0);
+                            UInt32 time = (UInt32)(frame[0] * 255*255*255 + frame[1]*255* 255+frame[2] * 255 + frame[3]);
+                            frames.Add(new CANDumpData(time,
+                                frame[4],
+                                frame[5],
+                                frame[6],
+                                frame[7],
+                                frame[8],
+                                frame[9],
+                                frame[10],
+                                frame[11],
+                                frame[12],
+                                frame[13],
+                                frame[14],
+                                frame[15],
+                                frame[16],
+                                frame[16],
+                                frame[16]));
                         }
                         else
                         {
@@ -98,54 +110,61 @@ namespace DVT_2020_L04_Graph
 
                         }
                     }
-                    dataGridView1.DataSource = allTable(allData);
-                    //foreach (byte b in bytes)
-                    //{
-                    //    listBox1.Items.Add(b);
-                    //}
+                    dataGridView1.DataSource = dataTable(frames);
+
                 }
             }
         }
 
-        private DataTable allTable(List<int[]> frames)
+        private DataTable dataTable(List<CANDumpData> frames)
         {
-            DataTable table = new DataTable();
+            // Создание таблицы
+            DataTable table = new DataTable("CANDumpData");
 
-            // Добавляем колонки
-            for (int j = 0; j < frames[0].Count(); j++)
-            {
-                table.Columns.Add("D"+j, typeof(int));
-            }
-            for (int i = 0; i < frames.Count(); i++)
+            // Добавление колонок в таблицу
+            table.Columns.Add("TickStamp", typeof(uint));
+            table.Columns.Add("Priority", typeof(byte));
+            table.Columns.Add("EDP", typeof(byte));
+            table.Columns.Add("DP", typeof(byte));
+            table.Columns.Add("PDUFormat", typeof(byte));
+            table.Columns.Add("PDUSpecific", typeof(byte));
+            table.Columns.Add("SourceAddress", typeof(byte));
+            table.Columns.Add("DLC", typeof(byte));
+            table.Columns.Add("b1", typeof(byte));
+            table.Columns.Add("b2", typeof(byte));
+            table.Columns.Add("b3", typeof(byte));
+            table.Columns.Add("b4", typeof(byte));
+            table.Columns.Add("b5", typeof(byte));
+            table.Columns.Add("b6", typeof(byte));
+            table.Columns.Add("b7", typeof(byte));
+            table.Columns.Add("b8", typeof(byte));
+
+            // Добавление данных в таблицу
+            foreach (var frame in frames)
             {
                 DataRow row = table.NewRow();
-                for (int j = 0; j < frames[0].Count(); j++)
-                {
-                    row["D" + j] =i;
-                }
+                row["TickStamp"] = frame.TickStamp;
+                row["Priority"] = frame.Priority;
+                row["EDP"] = frame.EDP;
+                row["DP"] = frame.DP;
+                row["PDUFormat"] = frame.PDUFormat;
+                row["PDUSpecific"] = frame.PDUSpecific;
+                row["SourceAddress"] = frame.SourceAddress;
+                row["DLC"] = frame.DLC;
+                row["b1"] = frame.b1;
+                row["b2"] = frame.b2;
+                row["b3"] = frame.b3;
+                row["b4"] = frame.b4;
+                row["b5"] = frame.b5;
+                row["b6"] = frame.b6;
+                row["b7"] = frame.b7;
+                row["b8"] = frame.b8;
                 table.Rows.Add(row);
             }
+
             return table;
         }
-        private DataTable dataTable(List<Frame> frames)
-        {
-            DataTable table = new DataTable();
 
-            // Добавляем колонки
-            table.Columns.Add("Time", typeof(int));
-            table.Columns.Add("Data1", typeof(int));
-            table.Columns.Add("Data2", typeof(int));
-
-            for (int i = 0; i < frames.Count(); i++)
-            {
-                DataRow row = table.NewRow();
-                row["Time"] = frames[i].time;
-                row["Data1"] = frames[i].data1;
-                row["Data2"] = frames[i].data2;
-                table.Rows.Add(row);
-            }
-            return table;
-        }
 
         private void buttonSave_Click(object sender, EventArgs e)
         {
