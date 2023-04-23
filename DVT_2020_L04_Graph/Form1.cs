@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using SharpGL;
+using QuickGraph;
+using QuickGraph.Graphviz;
+using QuickGraph.Graphviz.Dot;
 
 namespace DVT_2020_L04_Graph
 {
@@ -111,10 +114,12 @@ namespace DVT_2020_L04_Graph
                         }
                     }
                     dataGridView1.DataSource = dataTable(frames);
-
                 }
             }
         }
+
+
+        
 
         private DataTable dataTable(List<CANDumpData> frames)
         {

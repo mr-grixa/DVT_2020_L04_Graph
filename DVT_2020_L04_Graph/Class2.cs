@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QuickGraph;
+using QuickGraph.Graphviz;
+using QuickGraph.Graphviz.Dot;
 
 namespace DVT_2020_L04_Graph
 {
@@ -45,6 +48,9 @@ namespace DVT_2020_L04_Graph
             this.b7 = b7;
             this.b8 = b8;
         }
+
+
     }
+    
 
 }
