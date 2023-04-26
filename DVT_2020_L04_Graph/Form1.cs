@@ -88,7 +88,7 @@ namespace DVT_2020_L04_Graph
                             I = 0;
                             i++;
                             BitConverter.ToInt32(bytes,0);
-                            UInt32 time = (UInt32)(frame[0] * 255*255*255 + frame[1]*255* 255+frame[2] * 255 + frame[3]);
+                            UInt32 time = (UInt32)(frame[3] * 255*255*255 + frame[2]*255* 255+frame[1] * 255 + frame[0]);
                             frames.Add(new CANDumpData(time,
                                 frame[4],
                                 frame[5],
