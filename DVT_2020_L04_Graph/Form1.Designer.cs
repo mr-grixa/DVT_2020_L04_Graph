@@ -53,10 +53,12 @@
             this.buttonLoad = new System.Windows.Forms.Button();
             this.UpDownCout = new System.Windows.Forms.NumericUpDown();
             this.buttonGenerate = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.numericUpDown_Fov = new System.Windows.Forms.NumericUpDown();
             this.checkBox_perspective = new System.Windows.Forms.CheckBox();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.comboBoxX = new System.Windows.Forms.ComboBox();
+            this.comboBoxY = new System.Windows.Forms.ComboBox();
+            this.comboBoxZ = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -67,9 +69,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownCout)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Fov)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // radioButton_Dot
@@ -89,7 +90,7 @@
             this.openGLControl.Location = new System.Drawing.Point(586, 17);
             this.openGLControl.Name = "openGLControl";
             this.openGLControl.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;
-            this.openGLControl.RenderContextType = SharpGL.RenderContextType.FBO;
+            this.openGLControl.RenderContextType = SharpGL.RenderContextType.NativeWindow;
             this.openGLControl.RenderTrigger = SharpGL.RenderTrigger.TimerBased;
             this.openGLControl.Size = new System.Drawing.Size(600, 400);
             this.openGLControl.TabIndex = 95;
@@ -282,7 +283,7 @@
             this.numericUpDownZ.Size = new System.Drawing.Size(52, 20);
             this.numericUpDownZ.TabIndex = 82;
             this.numericUpDownZ.Value = new decimal(new int[] {
-            5,
+            2,
             0,
             0,
             0});
@@ -380,15 +381,6 @@
             this.buttonGenerate.UseVisualStyleBackColor = true;
             this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(287, 15);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(289, 402);
-            this.dataGridView1.TabIndex = 96;
-            this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
-            // 
             // numericUpDown_Fov
             // 
             this.numericUpDown_Fov.Location = new System.Drawing.Point(107, 308);
@@ -421,23 +413,75 @@
             this.checkBox_perspective.Text = "Перспектива";
             this.checkBox_perspective.UseVisualStyleBackColor = true;
             // 
-            // dataGridView2
+            // dataGridView
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(287, 423);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(289, 189);
-            this.dataGridView2.TabIndex = 107;
+            this.dataGridView.AllowUserToAddRows = false;
+            this.dataGridView.AllowUserToDeleteRows = false;
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView.Location = new System.Drawing.Point(10, 423);
+            this.dataGridView.Name = "dataGridView";
+            this.dataGridView.Size = new System.Drawing.Size(570, 189);
+            this.dataGridView.TabIndex = 108;
+            // 
+            // comboBoxX
+            // 
+            this.comboBoxX.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxX.FormattingEnabled = true;
+            this.comboBoxX.Items.AddRange(new object[] {
+            "2=>0",
+            "1=>31",
+            "31=>1",
+            "57=>1",
+            "25=>1"});
+            this.comboBoxX.Location = new System.Drawing.Point(160, 213);
+            this.comboBoxX.Name = "comboBoxX";
+            this.comboBoxX.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxX.TabIndex = 109;
+            this.comboBoxX.SelectedIndexChanged += new System.EventHandler(this.comboBoxXYZ_SelectedIndexChanged);
+            // 
+            // comboBoxY
+            // 
+            this.comboBoxY.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxY.FormattingEnabled = true;
+            this.comboBoxY.Items.AddRange(new object[] {
+            "2=>0",
+            "1=>31",
+            "31=>1",
+            "57=>1",
+            "25=>1"});
+            this.comboBoxY.Location = new System.Drawing.Point(160, 245);
+            this.comboBoxY.Name = "comboBoxY";
+            this.comboBoxY.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxY.TabIndex = 110;
+            this.comboBoxY.SelectedIndexChanged += new System.EventHandler(this.comboBoxXYZ_SelectedIndexChanged);
+            // 
+            // comboBoxZ
+            // 
+            this.comboBoxZ.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxZ.FormattingEnabled = true;
+            this.comboBoxZ.Items.AddRange(new object[] {
+            "2=>0",
+            "1=>31",
+            "31=>1",
+            "57=>1",
+            "25=>1"});
+            this.comboBoxZ.Location = new System.Drawing.Point(160, 276);
+            this.comboBoxZ.Name = "comboBoxZ";
+            this.comboBoxZ.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxZ.TabIndex = 111;
+            this.comboBoxZ.SelectedIndexChanged += new System.EventHandler(this.comboBoxXYZ_SelectedIndexChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1198, 620);
-            this.Controls.Add(this.dataGridView2);
+            this.Controls.Add(this.comboBoxZ);
+            this.Controls.Add(this.comboBoxY);
+            this.Controls.Add(this.comboBoxX);
+            this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.checkBox_perspective);
             this.Controls.Add(this.numericUpDown_Fov);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.openGLControl);
             this.Controls.Add(this.label_track);
             this.Controls.Add(this.label6);
@@ -471,9 +515,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownCout)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Fov)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -505,10 +548,12 @@
         private System.Windows.Forms.Button buttonLoad;
         private System.Windows.Forms.NumericUpDown UpDownCout;
         private System.Windows.Forms.Button buttonGenerate;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.NumericUpDown numericUpDown_Fov;
         private System.Windows.Forms.CheckBox checkBox_perspective;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dataGridView;
+        private System.Windows.Forms.ComboBox comboBoxX;
+        private System.Windows.Forms.ComboBox comboBoxY;
+        private System.Windows.Forms.ComboBox comboBoxZ;
     }
 }
 

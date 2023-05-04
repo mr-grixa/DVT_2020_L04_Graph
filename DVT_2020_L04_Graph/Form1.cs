@@ -16,12 +16,17 @@ using QuickGraph.Graphviz.Dot;
 using SharpGL.Enumerations;
 using SharpGL.SceneGraph.Assets;
 using System.Drawing.Imaging;
+using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Net.NetworkInformation;
 
 namespace DVT_2020_L04_Graph
 {
     public partial class Form1 : Form
     {
         List<Point3D> points=new List<Point3D>();
+        DataTable CANdataTable;
+        DataTable dataTable;
         public Form1()
         {
             InitializeComponent();
@@ -75,9 +80,9 @@ namespace DVT_2020_L04_Graph
             }
             gl.End();
 
-            Draw.SquarePlane(gl, 2, 1.25, 0, 0, "x", Draw2D.Triangle(Color.Red));
-            Draw.SquarePlane(gl, 2, 0, 1.25, 0, "y", Draw2D.Triangle(Color.Green));
-            Draw.SquarePlane(gl, 2, 0, 0, 1.25, "z", Draw2D.Triangle(Color.Blue));
+            //Draw.SquarePlane(gl, 2, 1.25, 0, 0, "x", Draw2D.Triangle(Color.Red));
+            //Draw.SquarePlane(gl, 2, 0, 1.25, 0, "y", Draw2D.Triangle(Color.Green));
+            //Draw.SquarePlane(gl, 2, 0, 0, 1.25, "z", Draw2D.Triangle(Color.Blue));
 
             gl.Finish();
 
@@ -130,8 +135,32 @@ namespace DVT_2020_L04_Graph
 
                         }
                     }
-                    dataGridView1.DataSource = dataTable(frames);
-                    DrawCAN(frames);
+                    //dataGridView1.DataSource = dataTable(frames);
+                    CANdataTable = dataTableFromCAN(frames);
+                    dataTable = new DataTable();
+                    dataTable.Columns.Add("TickStamp", typeof(UInt32));
+                    // Получаем все уникальные значения столбца "Name"
+                    var uniqueNames = CANdataTable.AsEnumerable().Select(row => row.Field<UInt32>("TickStamp")).Distinct();
+                    foreach (UInt32 time in uniqueNames)
+                    {
+                        DataRow[] rows = CANdataTable.Select($"TickStamp = '" + time + "'");
+
+                        DataRow newRow = dataTable.NewRow();
+                        newRow["TickStamp"] = time;
+                        foreach (DataRow row in rows)
+                        {
+                            string name = row["Source"] + "=>" + row["Dest"];
+                            if (!dataTable.Columns.Contains(name))
+                            {
+                                dataTable.Columns.Add(name, typeof(byte));
+                            }
+                            newRow[name] = row["b1"];
+
+                        }
+                        dataTable.Rows.Add(newRow);
+                    }
+                    dataGridView.DataSource= dataTable;
+                   // DrawCAN(frames);
                 }
             }
         }
@@ -151,7 +180,7 @@ namespace DVT_2020_L04_Graph
         }
 
 
-        private DataTable dataTable(List<CANDumpData> frames)
+        private DataTable dataTableFromCAN(List<CANDumpData> frames)
         {
             DataTable table = new DataTable();
             table.Columns.Add("TickStamp", typeof(UInt32));
@@ -300,27 +329,22 @@ namespace DVT_2020_L04_Graph
         }
 
 
-        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        private void comboBoxXYZ_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DataTable table = new DataTable();
-            foreach (DataGridViewColumn column in dataGridView1.Columns)
+            points.Clear();
+            foreach (DataRow row in dataTable.Rows)
             {
-                table.Columns.Add(column.HeaderText, column.ValueType);
+                string Xname = comboBoxX.SelectedItem?.ToString();
+                string Yname = comboBoxY.SelectedItem?.ToString();
+                string Zname = comboBoxZ.SelectedItem?.ToString();
+                double X = 0;
+                double Y = 0;
+                double Z = 0;
+                if (Xname != null) { X =((double)(byte)row[Xname] / 127) - 1; }
+                if (Yname != null) { Y =((double)(byte)row[Yname] / 127) - 1; }
+                if (Zname != null) { Z =((double)(byte)row[Zname] / 127) - 1; }
+                points.Add(new Point3D(X, Y,Z));
             }
-            foreach (DataGridViewRow row in dataGridView1.SelectedRows)
-            {
-                DataRow newRow = table.Rows.Add();
-                foreach (DataGridViewCell cell in row.Cells)
-                {
-                    if (cell.Value != null)
-                    {
-                        newRow[cell.ColumnIndex] = cell.Value;
-
-                    }
-                }
-            }
-            dataGridView2.DataSource = table;
-
         }
     }
 }
