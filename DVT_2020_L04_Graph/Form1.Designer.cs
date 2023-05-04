@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.radioButton_Dot = new System.Windows.Forms.RadioButton();
-            this.openGLControl1 = new SharpGL.OpenGLControl();
+            this.openGLControl = new SharpGL.OpenGLControl();
             this.radioButtonSpin = new System.Windows.Forms.RadioButton();
             this.radioButtonCube = new System.Windows.Forms.RadioButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -54,7 +54,10 @@
             this.UpDownCout = new System.Windows.Forms.NumericUpDown();
             this.buttonGenerate = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.openGLControl1)).BeginInit();
+            this.numericUpDown_Fov = new System.Windows.Forms.NumericUpDown();
+            this.checkBox_perspective = new System.Windows.Forms.CheckBox();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRZ)).BeginInit();
@@ -65,6 +68,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownCout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Fov)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // radioButton_Dot
@@ -78,20 +83,20 @@
             this.radioButton_Dot.Text = "Точка";
             this.radioButton_Dot.UseVisualStyleBackColor = true;
             // 
-            // openGLControl1
+            // openGLControl
             // 
-            this.openGLControl1.DrawFPS = false;
-            this.openGLControl1.Location = new System.Drawing.Point(586, 17);
-            this.openGLControl1.Name = "openGLControl1";
-            this.openGLControl1.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;
-            this.openGLControl1.RenderContextType = SharpGL.RenderContextType.DIBSection;
-            this.openGLControl1.RenderTrigger = SharpGL.RenderTrigger.TimerBased;
-            this.openGLControl1.Size = new System.Drawing.Size(600, 400);
-            this.openGLControl1.TabIndex = 95;
-            this.openGLControl1.OpenGLDraw += new SharpGL.RenderEventHandler(this.openGLControl1_OpenGLDraw);
-            this.openGLControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.openGLControl1_MouseDown);
-            this.openGLControl1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.openGLControl1_MouseMove);
-            this.openGLControl1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.openGLControl1_MouseUp);
+            this.openGLControl.DrawFPS = false;
+            this.openGLControl.Location = new System.Drawing.Point(586, 17);
+            this.openGLControl.Name = "openGLControl";
+            this.openGLControl.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;
+            this.openGLControl.RenderContextType = SharpGL.RenderContextType.FBO;
+            this.openGLControl.RenderTrigger = SharpGL.RenderTrigger.TimerBased;
+            this.openGLControl.Size = new System.Drawing.Size(600, 400);
+            this.openGLControl.TabIndex = 95;
+            this.openGLControl.OpenGLDraw += new SharpGL.RenderEventHandler(this.openGLControl1_OpenGLDraw);
+            this.openGLControl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.openGLControl1_MouseDown);
+            this.openGLControl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.openGLControl1_MouseMove);
+            this.openGLControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.openGLControl1_MouseUp);
             // 
             // radioButtonSpin
             // 
@@ -380,16 +385,60 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(287, 15);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(289, 423);
+            this.dataGridView1.Size = new System.Drawing.Size(289, 402);
             this.dataGridView1.TabIndex = 96;
+            this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
+            // 
+            // numericUpDown_Fov
+            // 
+            this.numericUpDown_Fov.Location = new System.Drawing.Point(107, 308);
+            this.numericUpDown_Fov.Maximum = new decimal(new int[] {
+            179,
+            0,
+            0,
+            0});
+            this.numericUpDown_Fov.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown_Fov.Name = "numericUpDown_Fov";
+            this.numericUpDown_Fov.Size = new System.Drawing.Size(41, 20);
+            this.numericUpDown_Fov.TabIndex = 103;
+            this.numericUpDown_Fov.Value = new decimal(new int[] {
+            45,
+            0,
+            0,
+            0});
+            // 
+            // checkBox_perspective
+            // 
+            this.checkBox_perspective.AutoSize = true;
+            this.checkBox_perspective.Location = new System.Drawing.Point(10, 308);
+            this.checkBox_perspective.Name = "checkBox_perspective";
+            this.checkBox_perspective.Size = new System.Drawing.Size(93, 17);
+            this.checkBox_perspective.TabIndex = 106;
+            this.checkBox_perspective.Text = "Перспектива";
+            this.checkBox_perspective.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Location = new System.Drawing.Point(287, 423);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.Size = new System.Drawing.Size(289, 189);
+            this.dataGridView2.TabIndex = 107;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1198, 450);
+            this.ClientSize = new System.Drawing.Size(1198, 620);
+            this.Controls.Add(this.dataGridView2);
+            this.Controls.Add(this.checkBox_perspective);
+            this.Controls.Add(this.numericUpDown_Fov);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.openGLControl1);
+            this.Controls.Add(this.openGLControl);
             this.Controls.Add(this.label_track);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -411,7 +460,7 @@
             this.Controls.Add(this.buttonGenerate);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.openGLControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -423,6 +472,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpDownCout)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Fov)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -431,7 +482,7 @@
         #endregion
 
         private System.Windows.Forms.RadioButton radioButton_Dot;
-        private SharpGL.OpenGLControl openGLControl1;
+        private SharpGL.OpenGLControl openGLControl;
         private System.Windows.Forms.RadioButton radioButtonSpin;
         private System.Windows.Forms.RadioButton radioButtonCube;
         private System.Windows.Forms.Timer timer1;
@@ -455,6 +506,9 @@
         private System.Windows.Forms.NumericUpDown UpDownCout;
         private System.Windows.Forms.Button buttonGenerate;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.NumericUpDown numericUpDown_Fov;
+        private System.Windows.Forms.CheckBox checkBox_perspective;
+        private System.Windows.Forms.DataGridView dataGridView2;
     }
 }
 
