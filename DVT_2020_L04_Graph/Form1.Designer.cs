@@ -59,6 +59,8 @@
             this.comboBoxX = new System.Windows.Forms.ComboBox();
             this.comboBoxY = new System.Windows.Forms.ComboBox();
             this.comboBoxZ = new System.Windows.Forms.ComboBox();
+            this.checkBox_normalize = new System.Windows.Forms.CheckBox();
+            this.checkBox_plane = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -420,7 +422,7 @@
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Location = new System.Drawing.Point(10, 423);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(570, 189);
+            this.dataGridView.Size = new System.Drawing.Size(318, 189);
             this.dataGridView.TabIndex = 108;
             // 
             // comboBoxX
@@ -471,11 +473,34 @@
             this.comboBoxZ.TabIndex = 111;
             this.comboBoxZ.SelectedIndexChanged += new System.EventHandler(this.comboBoxXYZ_SelectedIndexChanged);
             // 
+            // checkBox_normalize
+            // 
+            this.checkBox_normalize.AutoSize = true;
+            this.checkBox_normalize.Location = new System.Drawing.Point(160, 303);
+            this.checkBox_normalize.Name = "checkBox_normalize";
+            this.checkBox_normalize.Size = new System.Drawing.Size(102, 17);
+            this.checkBox_normalize.TabIndex = 112;
+            this.checkBox_normalize.Text = "Нормализация";
+            this.checkBox_normalize.UseVisualStyleBackColor = true;
+            this.checkBox_normalize.CheckedChanged += new System.EventHandler(this.comboBoxXYZ_SelectedIndexChanged);
+            // 
+            // checkBox_plane
+            // 
+            this.checkBox_plane.AutoSize = true;
+            this.checkBox_plane.Location = new System.Drawing.Point(304, 217);
+            this.checkBox_plane.Name = "checkBox_plane";
+            this.checkBox_plane.Size = new System.Drawing.Size(81, 17);
+            this.checkBox_plane.TabIndex = 113;
+            this.checkBox_plane.Text = "Плоскость";
+            this.checkBox_plane.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1198, 620);
+            this.Controls.Add(this.checkBox_plane);
+            this.Controls.Add(this.checkBox_normalize);
             this.Controls.Add(this.comboBoxZ);
             this.Controls.Add(this.comboBoxY);
             this.Controls.Add(this.comboBoxX);
@@ -554,6 +579,8 @@
         private System.Windows.Forms.ComboBox comboBoxX;
         private System.Windows.Forms.ComboBox comboBoxY;
         private System.Windows.Forms.ComboBox comboBoxZ;
+        private System.Windows.Forms.CheckBox checkBox_normalize;
+        private System.Windows.Forms.CheckBox checkBox_plane;
     }
 }
 

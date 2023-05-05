@@ -1,6 +1,5 @@
 ﻿using SharpGL;
-using SharpGL.Enumerations;
-using SharpGL.SceneGraph.Assets;
+using SharpGL.SceneGraph;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -202,16 +201,16 @@ namespace DVT_2020_L04_Graph
             // Задание координат вершин плоскости
             if (direction == "x")
             {
-                 gl.TexCoord(0.0f, 0.0f);gl.Vertex(x, y1, z1);
-                 gl.TexCoord(0.0f, 1.0f);gl.Vertex(x, y1, z2);
-                 gl.TexCoord(1.0f, 1.0f);gl.Vertex(x, y2, z2);
-                 gl.TexCoord(1.0f, 0.0f);gl.Vertex(x, y2, z1);
+                gl.TexCoord(0.0f, 0.0f); gl.Vertex(x, y1, z1);
+                gl.TexCoord(0.0f, 1.0f); gl.Vertex(x, y1, z2);
+                gl.TexCoord(1.0f, 1.0f); gl.Vertex(x, y2, z2);
+                gl.TexCoord(1.0f, 0.0f); gl.Vertex(x, y2, z1);
             }
             else if (direction == "y")
             {
-                gl.TexCoord(0.0f, 0.0f);gl.Vertex(x1, y, z1);
-                gl.TexCoord(0.0f, 1.0f);gl.Vertex(x1, y, z2);
-                gl.TexCoord(1.0f, 1.0f);gl.Vertex(x2, y, z2);
+                gl.TexCoord(0.0f, 0.0f); gl.Vertex(x1, y, z1);
+                gl.TexCoord(0.0f, 1.0f); gl.Vertex(x1, y, z2);
+                gl.TexCoord(1.0f, 1.0f); gl.Vertex(x2, y, z2);
                 gl.TexCoord(1.0f, 0.0f); gl.Vertex(x2, y, z1);
             }
             else if (direction == "z")
@@ -228,6 +227,235 @@ namespace DVT_2020_L04_Graph
             gl.DeleteTextures(1, textures);
             bitmap.Dispose();
 
+        }
+
+        public static void Rectangle(OpenGL gl, double x, double y, double z, double widthX, double widthY, double widthZ)
+        {
+            // Вычисляем координаты углов прямоугольника
+            double x1 = x - widthX;
+            double y1 = y - widthY;
+            double z1 = z - widthZ;
+            double x2 = x + widthX;
+            double y2 = y + widthY;
+            double z2 = z + widthZ;
+
+            // Рисуем прямоугольник
+            gl.Begin(OpenGL.GL_LINES);
+            ////
+            gl.Vertex(x1, y1, z1);
+            gl.Vertex(x1, y1, z2);
+            gl.Vertex(x1, y2, z1);
+            gl.Vertex(x1, y2, z2);
+            // Грань X1
+            gl.Vertex(x1, y1, z1);
+            gl.Vertex(x1, y2, z1);
+            gl.Vertex(x1, y2, z2);
+            gl.Vertex(x1, y1, z2);
+            ////
+            gl.Vertex(x2, y2, z1);
+            gl.Vertex(x2, y2, z2);
+            gl.Vertex(x2, y1, z1);
+            gl.Vertex(x2, y1, z2);
+            //// Грань X2
+            gl.Vertex(x2, y1, z1);
+            gl.Vertex(x2, y2, z1);
+            gl.Vertex(x2, y2, z2);
+            gl.Vertex(x2, y1, z2);
+            ////
+            gl.Vertex(x1, y1, z1);
+            gl.Vertex(x1, y1, z2);
+            gl.Vertex(x2, y1, z1);
+            gl.Vertex(x2, y1, z2);
+            // Грань Y1
+            gl.Vertex(x1, y1, z1);
+            gl.Vertex(x2, y1, z1);
+            gl.Vertex(x2, y1, z2);
+            gl.Vertex(x1, y1, z2);
+            /////
+            gl.Vertex(x1, y2, z1);
+            gl.Vertex(x1, y2, z2);
+            gl.Vertex(x2, y2, z1);
+            gl.Vertex(x2, y2, z2);
+            // Грань Y2
+            gl.Vertex(x1, y2, z1);
+            gl.Vertex(x2, y2, z1);
+            gl.Vertex(x2, y2, z2);
+            gl.Vertex(x1, y2, z2);
+            // Грань Z1
+            gl.Vertex(x1, y1, z1);
+            gl.Vertex(x1, y2, z1);
+            gl.Vertex(x2, y1, z1);
+            gl.Vertex(x2, y2, z1);
+            ////
+            gl.Vertex(x1, y1, z1);
+            gl.Vertex(x2, y1, z1);
+            gl.Vertex(x2, y2, z1);
+            gl.Vertex(x1, y2, z1);
+            /////
+            gl.Vertex(x1, y1, z2);
+            gl.Vertex(x1, y2, z2);
+            gl.Vertex(x2, y1, z2);
+            gl.Vertex(x2, y2, z2);
+            // Грань Z2
+            gl.Vertex(x1, y1, z2);
+            gl.Vertex(x2, y1, z2);
+            gl.Vertex(x2, y2, z2);
+            gl.Vertex(x1, y2, z2);
+
+            gl.End();
+        }
+
+        public static void RectangleQ(OpenGL gl, double x, double y, double z, double widthX, double widthY, double widthZ)
+        {
+            // Вычисляем координаты углов прямоугольника
+            double x1 = x - widthX;
+            double y1 = y - widthY;
+            double z1 = z - widthZ;
+            double x2 = x + widthX;
+            double y2 = y + widthY;
+            double z2 = z + widthZ;
+
+            // Рисуем прямоугольник
+            gl.Begin(OpenGL.GL_QUADS);
+
+            // Грань X1
+            gl.Vertex(x1, y1, z1);
+            gl.Vertex(x1, y2, z1);
+            gl.Vertex(x1, y2, z2);
+            gl.Vertex(x1, y1, z2);
+            // Грань X2
+            gl.Vertex(x2, y1, z1);
+            gl.Vertex(x2, y2, z1);
+            gl.Vertex(x2, y2, z2);
+            gl.Vertex(x2, y1, z2);
+            // Грань Y1
+            gl.Vertex(x1, y1, z1);
+            gl.Vertex(x2, y1, z1);
+            gl.Vertex(x2, y1, z2);
+            gl.Vertex(x1, y1, z2);
+            // Грань Y2
+            gl.Vertex(x1, y2, z1);
+            gl.Vertex(x2, y2, z1);
+            gl.Vertex(x2, y2, z2);
+            gl.Vertex(x1, y2, z2);
+            // Грань Z1
+            gl.Vertex(x1, y1, z1);
+            gl.Vertex(x2, y1, z1);
+            gl.Vertex(x2, y2, z1);
+            gl.Vertex(x1, y2, z1);
+            // Грань Z2
+            gl.Vertex(x1, y1, z2);
+            gl.Vertex(x2, y1, z2);
+            gl.Vertex(x2, y2, z2);
+            gl.Vertex(x1, y2, z2);
+
+            gl.End();
+        }
+
+        public static void Histogram(OpenGL gl, int[,] histogramXY)
+        {
+            IEnumerable<int> colNumbs = histogramXY.Cast<int>();
+            double max = colNumbs.Max()*2;
+            gl.Begin(OpenGL.GL_QUADS);
+            for (int x = 0; x < 9; x++)
+            {
+                for (int y = 0; y < 9; y++)
+                {
+                    gl.Color((double)histogramXY[x, y] / max, 1 - (double)histogramXY[x, y] / max, 0.5);
+                    gl.Vertex(((double)x - 4.5) / 5,
+                        ((double)histogramXY[x, y] / max) - 1.5,
+                        ((double)y - 4.5) / 5);
+                    gl.Color((double)histogramXY[x + 1, y] / max, 1 - (double)histogramXY[x + 1, y] / max, 0.5);
+                    gl.Vertex(((double)x - 3.5) / 5,
+                        ((double)histogramXY[x + 1, y] / max) - 1.5,
+                        ((double)y - 4.5) / 5);
+                    gl.Color((double)histogramXY[x + 1, y + 1] / max, 1 - (double)histogramXY[x + 1, y + 1] / max, 0.5);
+                    gl.Vertex(((double)x - 3.5) / 5,
+                        ((double)histogramXY[x + 1, y + 1] / max) - 1.5,
+                        ((double)y - 3.5) / 5);
+                    gl.Color((double)histogramXY[x, y + 1] / max, 1 - (double)histogramXY[x, y + 1] / max, 0.5);
+                    gl.Vertex(((double)x - 4.5) / 5,
+                        ((double)histogramXY[x, y + 1] / max) - 1.5,
+                        ((double)y - 3.5) / 5);
+                }
+            }
+            gl.End();
+        }
+
+        public static void DrawHistogramXY(OpenGL gl, int[,] histogramXY)
+        {
+            gl.Begin(OpenGL.GL_QUADS);
+
+            // Размеры столбцов гистограммы
+            double columnWidth = 0.1;
+            double columnHeight = 0.1;
+
+            // Цвет столбцов гистограммы
+            double[] columnColor = { 0.0, 0.0, 1.0 }; // синий
+
+            // Проходим по всем столбцам гистограммы
+            for (int x = 0; x < histogramXY.GetLength(0); x++)
+            {
+                for (int z = 0; z < histogramXY.GetLength(1); z++)
+                {
+                    int count = histogramXY[x, z];
+
+                    // Координаты вершин столбца гистограммы
+                    double x1 = x * columnWidth;
+                    double y1 = 0.0;
+                    double z1 = z * columnWidth;
+                    double x2 = x1 + columnWidth;
+                    double y2 = count * columnHeight;
+                    double z2 = z1 + columnWidth;
+
+                    // Устанавливаем цвет столбца гистограммы
+                    gl.Color(columnColor[0], columnColor[1], columnColor[2]);
+
+                    // Рисуем столбец гистограммы
+                    gl.Vertex(x1, y1, z1);
+                    gl.Vertex(x2, y1, z1);
+                    gl.Vertex(x2, y2, z1);
+                    gl.Vertex(x1, y2, z1);
+                }
+            }
+
+            gl.End();
+        }
+
+
+        public static void XYZ(OpenGL gl)
+        {
+            // Рисуем оси координат
+            gl.Begin(OpenGL.GL_LINES);
+
+            // Ось X - красный цвет
+            gl.Color(1.0f, 0.0f, 0.0f);
+            gl.Vertex(0.0f, 0.0f, 0.0f);
+            gl.Vertex(1.0f, 0.0f, 0.0f);
+            gl.Vertex(1.0f, 0.0f, 0.0f);
+            gl.Vertex(0.9f, 0.1f, 0.0f);
+            gl.Vertex(1.0f, 0.0f, 0.0f);
+            gl.Vertex(0.9f, -0.1f, 0.0f);
+
+            // Ось Y - зеленый цвет
+            gl.Color(0.0f, 1.0f, 0.0f);
+            gl.Vertex(0.0f, 0.0f, 0.0f);
+            gl.Vertex(0.0f, 1.0f, 0.0f);
+            gl.Vertex(0.0f, 1.0f, 0.0f);
+            gl.Vertex(0.1f, 0.9f, 0.0f);
+            gl.Vertex(0.0f, 1.0f, 0.0f);
+            gl.Vertex(-0.1f, 0.9f, 0.0f);
+
+            // Ось Z - синий цвет
+            gl.Color(0.0f, 0.0f, 1.0f);
+            gl.Vertex(0.0f, 0.0f, 0.0f);
+            gl.Vertex(0.0f, 0.0f, 1.0f);
+            gl.Vertex(0.0f, 0.0f, 1.0f);
+            gl.Vertex(0.0f, 0.1f, 0.9f);
+            gl.Vertex(0.0f, 0.0f, 1.0f);
+            gl.Vertex(0.0f, -0.1f, 0.9f);
+
+            gl.End();
         }
     }
 }

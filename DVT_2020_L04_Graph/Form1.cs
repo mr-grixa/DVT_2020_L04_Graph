@@ -1,32 +1,21 @@
-﻿using System;
+﻿using SharpGL;
+using SharpGL.Enumerations;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.IO;
-using SharpGL;
-using QuickGraph;
-using QuickGraph.Graphviz;
-using QuickGraph.Graphviz.Dot;
-using SharpGL.Enumerations;
-using SharpGL.SceneGraph.Assets;
-using System.Drawing.Imaging;
-using System.Xml.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.Net.NetworkInformation;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace DVT_2020_L04_Graph
 {
     public partial class Form1 : Form
     {
-        List<Point3D> points=new List<Point3D>();
+        List<Point3D> points = new List<Point3D>();
         DataTable CANdataTable;
         DataTable dataTable;
+        int[,] histogramXY;
         public Form1()
         {
             InitializeComponent();
@@ -79,40 +68,49 @@ namespace DVT_2020_L04_Graph
                 }
             }
             gl.End();
+            gl.Color(1d, 1d, 1d);
+            Draw.Rectangle(gl, 0, 0, 0, 1, 1, 1);
+
+            if (checkBox_plane.Checked && histogramXY != null)
+            {
+                Draw.DrawHistogramXY(gl, histogramXY);
+            }
 
             //Draw.SquarePlane(gl, 2, 1.25, 0, 0, "x", Draw2D.Triangle(Color.Red));
             //Draw.SquarePlane(gl, 2, 0, 1.25, 0, "y", Draw2D.Triangle(Color.Green));
             //Draw.SquarePlane(gl, 2, 0, 0, 1.25, "z", Draw2D.Triangle(Color.Blue));
 
+            Draw.XYZ(gl);
+
             gl.Finish();
 
         }
-        
+
         private void buttonLoad_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             //openFileDialog.Filter = "Табличные данные (*.bmp)|*.bmp";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                using (FileStream fs = new FileStream(openFileDialog.FileName,FileMode.Open))
+                using (FileStream fs = new FileStream(openFileDialog.FileName, FileMode.Open))
                 {
                     byte[] bytes = new byte[fs.Length];
                     int bytesRead = 0;
                     while ((bytesRead = fs.Read(bytes, 0, bytes.Length)) > 0)
                     {
                     }
-                    
+
                     byte[] frame = new byte[19];
-                    List<CANDumpData> frames=new List<CANDumpData>();
+                    List<CANDumpData> frames = new List<CANDumpData>();
                     int I = 0;
-                    for (int i =0; i < bytes.Length; i++)
+                    for (int i = 0; i < bytes.Length; i++)
                     {
                         if (bytes[i] == 255 && bytes[i + 1] == 255)
                         {
                             I = 0;
                             i++;
-                            BitConverter.ToInt32(bytes,0);
-                            UInt32 time = (UInt32)(frame[3] * 256 * 256 + 256 + frame[2]* 256 * 256 + frame[1] * 256 + frame[0]);
+                            BitConverter.ToInt32(bytes, 0);
+                            UInt32 time = (UInt32)(frame[3] * 256 * 256 + 256 + frame[2] * 256 * 256 + frame[1] * 256 + frame[0]);
                             frames.Add(new CANDumpData(time,
                                 frame[4],
                                 frame[5],
@@ -130,7 +128,7 @@ namespace DVT_2020_L04_Graph
                         }
                         else
                         {
-                            frame[I]= bytes[i];
+                            frame[I] = bytes[i];
                             I++;
 
                         }
@@ -155,12 +153,19 @@ namespace DVT_2020_L04_Graph
                                 dataTable.Columns.Add(name, typeof(byte));
                             }
                             newRow[name] = row["b1"];
-
                         }
                         dataTable.Rows.Add(newRow);
                     }
-                    dataGridView.DataSource= dataTable;
-                   // DrawCAN(frames);
+                    dataGridView.DataSource = dataTable;
+                    dataGridView.Columns["TickStamp"].Width = 80;
+                    dataGridView.Columns["2=>0"].Width = 40;
+                    dataGridView.Columns["1=>31"].Width = 40;
+                    dataGridView.Columns["31=>1"].Width = 40;
+                    dataGridView.Columns["57=>1"].Width = 40;
+                    dataGridView.Columns["25=>1"].Width = 40;
+                    dataGridView.RowHeadersWidth = 10;
+                    // DrawCAN(frames);
+
                 }
             }
         }
@@ -168,13 +173,13 @@ namespace DVT_2020_L04_Graph
         private void DrawCAN(List<CANDumpData> frames)
         {
             points.Clear();
-            foreach(CANDumpData dumpData in frames)
+            foreach (CANDumpData dumpData in frames)
             {
-                double X = ((double)dumpData.Dest / 127) - 1;
-                double Y = ((double)dumpData.Source / 127) - 1;
-                double Z = ((double)dumpData.b1 / 127) - 1;
+                double X = ((double)dumpData.Dest / 255) - 1;
+                double Y = ((double)dumpData.Source / 255) - 1;
+                double Z = ((double)dumpData.b1 / 255) - 1;
 
-                points.Add(new Point3D(X,Y,Z));
+                points.Add(new Point3D(X, Y, Z));
 
             }
         }
@@ -306,7 +311,6 @@ namespace DVT_2020_L04_Graph
                          (int)point.z * 5 + 5,
                          (int)point.z * 5 + 5]++;
                 }
-
             }
         }
 
@@ -331,20 +335,60 @@ namespace DVT_2020_L04_Graph
 
         private void comboBoxXYZ_SelectedIndexChanged(object sender, EventArgs e)
         {
-            points.Clear();
-            foreach (DataRow row in dataTable.Rows)
+            if (dataTable != null)
             {
+                points.Clear();
                 string Xname = comboBoxX.SelectedItem?.ToString();
                 string Yname = comboBoxY.SelectedItem?.ToString();
                 string Zname = comboBoxZ.SelectedItem?.ToString();
-                double X = 0;
-                double Y = 0;
-                double Z = 0;
-                if (Xname != null) { X =((double)(byte)row[Xname] / 127) - 1; }
-                if (Yname != null) { Y =((double)(byte)row[Yname] / 127) - 1; }
-                if (Zname != null) { Z =((double)(byte)row[Zname] / 127) - 1; }
-                points.Add(new Point3D(X, Y,Z));
+                double Xmax = 255;
+                double Xmin = 0;
+                double Ymax = 255;
+                double Ymin = 0;
+                double Zmax = 255;
+                double Zmin = 0;
+                if (checkBox_normalize.Checked)
+                {
+                    Xmax = (double)(byte)dataTable.Select().Min(row1 => row1[Xname]);
+                    Xmin = (double)(byte)dataTable.Select().Max(row1 => row1[Xname]);
+                    Ymax = (double)(byte)dataTable.Select().Min(row1 => row1[Yname]);
+                    Ymin = (double)(byte)dataTable.Select().Max(row1 => row1[Yname]);
+                    Zmax = (double)(byte)dataTable.Select().Min(row1 => row1[Zname]);
+                    Zmin = (double)(byte)dataTable.Select().Max(row1 => row1[Zname]);
+                }
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    double X = 0;
+                    double Y = 0;
+                    double Z = 0;
+                    if (Xname != null)
+                    {
+                        X = (((double)(byte)row[Xname] - Xmin) / (Xmax - Xmin)) * 2 - 1;
+                    }
+                    if (Yname != null)
+                    {
+                        Y = (((double)(byte)row[Yname] - Ymin) / (Ymax - Ymin)) * 2 - 1;
+                    }
+                    if (Zname != null)
+                    {
+                        Z = (((double)(byte)row[Zname] - Zmin) / (Zmax - Zmin)) * 2 - 1;
+                    }
+                    points.Add(new Point3D(X, Y, Z));
+                }
+                histogramXY = new int[10, 10];
+                foreach (Point3D point in points)
+                {
+                    int z = (int)((point.z + 1) * 5);
+                    int x = (int)((point.x + 1) * 5);
+                    if (z < 10 && z >= 0 &&
+                        x < 10 && x >= 0)
+                    {
+                        histogramXY[x,z]++;
+                    }
+                }
             }
+
         }
     }
 }
