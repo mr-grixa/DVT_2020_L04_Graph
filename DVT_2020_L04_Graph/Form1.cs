@@ -24,7 +24,10 @@ namespace DVT_2020_L04_Graph
         public Form1()
         {
             InitializeComponent();
-            radioButtonCube.Checked = true;
+
+            comboBoxX.SelectedIndex = 1;
+            comboBoxY.SelectedIndex = 2;
+            comboBoxZ.SelectedIndex = 3;
         }
         OpenGL gl;
         private void openGLControl1_OpenGLDraw(object sender, RenderEventArgs args)
@@ -94,12 +97,12 @@ namespace DVT_2020_L04_Graph
             }
             if (allLine != null && checkBox_boxPlot.Checked)
             {
-                Draw.SquarePlane(gl, 2, 0, 1.25, 0, "y", allLine);
+                Draw.SquarePlane(gl, 2, 0, -1.25, 0, "y", allLine);
             }
             //Draw.SquarePlane(gl, 2, 0, 0, 1.25, "z", Draw2D.Triangle(Color.Blue));
             //Draw.SquarePlane(gl, 2, 0, 1.25, 0, "y", PlotBox);
+            if (checkBoxXYZ.Checked) Draw.XYZ(gl);
 
-            Draw.XYZ(gl);
 
             gl.Finish();
 
@@ -333,23 +336,7 @@ namespace DVT_2020_L04_Graph
             }
         }
 
-        private void buttonGenerate_Click(object sender, EventArgs e)
-        {
-            if (radioButtonCube.Checked)
-            {
-                points = Generate.RandomPoints((int)UpDownCout.Value);
-            }
-            else if (radioButtonSpin.Checked)
-            {
-                points = Generate.SpinPoints((int)UpDownCout.Value);
-            }
-            else if (radioButton_Dot.Checked)
-            {
-                points = Generate.DotPoints((int)UpDownCout.Value);
-            }
-            points = Generate.RandomaisePoints(points, (double)trackBar1.Value / 100);
-            Plotnost();
-        }
+       
 
 
         private void comboBoxXYZ_SelectedIndexChanged(object sender, EventArgs e)
@@ -452,8 +439,7 @@ namespace DVT_2020_L04_Graph
             boxPlotSeries.BorderWidth = 3;
             boxPlotSeries.Color = Color.DarkOrange;
 
-            string Xname = comboBoxX.SelectedItem?.ToString();
-            string Yname = comboBoxY.SelectedItem?.ToString();
+            string Zname = comboBoxZ.SelectedItem?.ToString();
             if (checkBox_all.Checked)
             {
                 foreach (DataRow row in dataTable.Rows)
@@ -484,7 +470,7 @@ namespace DVT_2020_L04_Graph
 
             void AddData(DataRow row)
             {
-                boxPlotSeries.Points.Add(new DataPoint((double)(byte)row[Xname], (double)(byte)row[Yname]));
+                boxPlotSeries.Points.Add(new DataPoint((double)(UInt32)row["TickStamp"], (double)(byte)row[Zname]));
             }
 
             chart.ChartAreas.Add("ChartArea1");

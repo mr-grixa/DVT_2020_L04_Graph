@@ -29,19 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.radioButton_Dot = new System.Windows.Forms.RadioButton();
             this.openGLControl = new SharpGL.OpenGLControl();
-            this.radioButtonSpin = new System.Windows.Forms.RadioButton();
-            this.radioButtonCube = new System.Windows.Forms.RadioButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label_track = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.buttonSaveImg = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
             this.numericUpDownRZ = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownRY = new System.Windows.Forms.NumericUpDown();
@@ -49,10 +44,7 @@
             this.numericUpDownZ = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownY = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownX = new System.Windows.Forms.NumericUpDown();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.buttonLoad = new System.Windows.Forms.Button();
-            this.UpDownCout = new System.Windows.Forms.NumericUpDown();
-            this.buttonGenerate = new System.Windows.Forms.Button();
             this.numericUpDown_Fov = new System.Windows.Forms.NumericUpDown();
             this.checkBox_perspective = new System.Windows.Forms.CheckBox();
             this.dataGridView = new System.Windows.Forms.DataGridView();
@@ -62,38 +54,23 @@
             this.checkBox_normalize = new System.Windows.Forms.CheckBox();
             this.checkBox_plane = new System.Windows.Forms.CheckBox();
             this.checkBox_all = new System.Windows.Forms.CheckBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.checkBox_boxPlot = new System.Windows.Forms.CheckBox();
+            this.checkBoxXYZ = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRZ)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZ)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UpDownCout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Fov)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // radioButton_Dot
-            // 
-            this.radioButton_Dot.AutoSize = true;
-            this.radioButton_Dot.Location = new System.Drawing.Point(169, 19);
-            this.radioButton_Dot.Name = "radioButton_Dot";
-            this.radioButton_Dot.Size = new System.Drawing.Size(55, 17);
-            this.radioButton_Dot.TabIndex = 40;
-            this.radioButton_Dot.TabStop = true;
-            this.radioButton_Dot.Text = "Точка";
-            this.radioButton_Dot.UseVisualStyleBackColor = true;
             // 
             // openGLControl
             // 
             this.openGLControl.DrawFPS = false;
-            this.openGLControl.Location = new System.Drawing.Point(586, 17);
+            this.openGLControl.Location = new System.Drawing.Point(346, 27);
             this.openGLControl.Name = "openGLControl";
             this.openGLControl.OpenGLVersion = SharpGL.Version.OpenGLVersion.OpenGL2_1;
             this.openGLControl.RenderContextType = SharpGL.RenderContextType.NativeWindow;
@@ -105,28 +82,6 @@
             this.openGLControl.MouseMove += new System.Windows.Forms.MouseEventHandler(this.openGLControl1_MouseMove);
             this.openGLControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.openGLControl1_MouseUp);
             // 
-            // radioButtonSpin
-            // 
-            this.radioButtonSpin.AutoSize = true;
-            this.radioButtonSpin.Location = new System.Drawing.Point(75, 19);
-            this.radioButtonSpin.Name = "radioButtonSpin";
-            this.radioButtonSpin.Size = new System.Drawing.Size(68, 17);
-            this.radioButtonSpin.TabIndex = 39;
-            this.radioButtonSpin.TabStop = true;
-            this.radioButtonSpin.Text = "Спирали";
-            this.radioButtonSpin.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonCube
-            // 
-            this.radioButtonCube.AutoSize = true;
-            this.radioButtonCube.Location = new System.Drawing.Point(6, 19);
-            this.radioButtonCube.Name = "radioButtonCube";
-            this.radioButtonCube.Size = new System.Drawing.Size(43, 17);
-            this.radioButtonCube.TabIndex = 38;
-            this.radioButtonCube.TabStop = true;
-            this.radioButtonCube.Text = "Куб";
-            this.radioButtonCube.UseVisualStyleBackColor = true;
-            // 
             // timer1
             // 
             this.timer1.Enabled = true;
@@ -135,7 +90,7 @@
             // label_track
             // 
             this.label_track.AutoSize = true;
-            this.label_track.Location = new System.Drawing.Point(268, 166);
+            this.label_track.Location = new System.Drawing.Point(1273, 577);
             this.label_track.Name = "label_track";
             this.label_track.Size = new System.Drawing.Size(13, 13);
             this.label_track.TabIndex = 94;
@@ -144,7 +99,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(7, 247);
+            this.label6.Location = new System.Drawing.Point(348, 492);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(14, 13);
             this.label6.TabIndex = 92;
@@ -153,24 +108,15 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 213);
+            this.label5.Location = new System.Drawing.Point(348, 458);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(14, 13);
             this.label5.TabIndex = 91;
             this.label5.Text = "X";
             // 
-            // trackBar1
-            // 
-            this.trackBar1.LargeChange = 1;
-            this.trackBar1.Location = new System.Drawing.Point(16, 145);
-            this.trackBar1.Maximum = 100;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(265, 45);
-            this.trackBar1.TabIndex = 90;
-            // 
             // buttonSaveImg
             // 
-            this.buttonSaveImg.Location = new System.Drawing.Point(12, 372);
+            this.buttonSaveImg.Location = new System.Drawing.Point(491, 585);
             this.buttonSaveImg.Name = "buttonSaveImg";
             this.buttonSaveImg.Size = new System.Drawing.Size(131, 26);
             this.buttonSaveImg.TabIndex = 89;
@@ -181,7 +127,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(93, 188);
+            this.label3.Location = new System.Drawing.Point(434, 433);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(75, 13);
             this.label3.TabIndex = 88;
@@ -190,28 +136,16 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 188);
+            this.label1.Location = new System.Drawing.Point(355, 433);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(65, 13);
             this.label1.TabIndex = 87;
             this.label1.Text = "Положение";
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.radioButton_Dot);
-            this.groupBox2.Controls.Add(this.radioButtonSpin);
-            this.groupBox2.Controls.Add(this.radioButtonCube);
-            this.groupBox2.Location = new System.Drawing.Point(17, 76);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(264, 51);
-            this.groupBox2.TabIndex = 86;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Фигура";
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(7, 282);
+            this.label7.Location = new System.Drawing.Point(348, 527);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(14, 13);
             this.label7.TabIndex = 93;
@@ -220,7 +154,7 @@
             // numericUpDownRZ
             // 
             this.numericUpDownRZ.DecimalPlaces = 3;
-            this.numericUpDownRZ.Location = new System.Drawing.Point(96, 277);
+            this.numericUpDownRZ.Location = new System.Drawing.Point(437, 522);
             this.numericUpDownRZ.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -238,7 +172,7 @@
             // numericUpDownRY
             // 
             this.numericUpDownRY.DecimalPlaces = 3;
-            this.numericUpDownRY.Location = new System.Drawing.Point(96, 245);
+            this.numericUpDownRY.Location = new System.Drawing.Point(437, 490);
             this.numericUpDownRY.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -256,7 +190,7 @@
             // numericUpDownRX
             // 
             this.numericUpDownRX.DecimalPlaces = 3;
-            this.numericUpDownRX.Location = new System.Drawing.Point(96, 213);
+            this.numericUpDownRX.Location = new System.Drawing.Point(437, 458);
             this.numericUpDownRX.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -274,7 +208,7 @@
             // numericUpDownZ
             // 
             this.numericUpDownZ.DecimalPlaces = 3;
-            this.numericUpDownZ.Location = new System.Drawing.Point(27, 277);
+            this.numericUpDownZ.Location = new System.Drawing.Point(368, 522);
             this.numericUpDownZ.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -302,7 +236,7 @@
             0,
             0,
             131072});
-            this.numericUpDownY.Location = new System.Drawing.Point(27, 245);
+            this.numericUpDownY.Location = new System.Drawing.Point(368, 490);
             this.numericUpDownY.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -325,7 +259,7 @@
             0,
             0,
             131072});
-            this.numericUpDownX.Location = new System.Drawing.Point(27, 213);
+            this.numericUpDownX.Location = new System.Drawing.Point(368, 458);
             this.numericUpDownX.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -340,19 +274,9 @@
             this.numericUpDownX.Size = new System.Drawing.Size(52, 20);
             this.numericUpDownX.TabIndex = 80;
             // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(150, 44);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(131, 26);
-            this.buttonSave.TabIndex = 79;
-            this.buttonSave.Text = "Сохранить";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
             // buttonLoad
             // 
-            this.buttonLoad.Location = new System.Drawing.Point(13, 44);
+            this.buttonLoad.Location = new System.Drawing.Point(733, 465);
             this.buttonLoad.Name = "buttonLoad";
             this.buttonLoad.Size = new System.Drawing.Size(131, 26);
             this.buttonLoad.TabIndex = 78;
@@ -360,36 +284,9 @@
             this.buttonLoad.UseVisualStyleBackColor = true;
             this.buttonLoad.Click += new System.EventHandler(this.buttonLoad_Click);
             // 
-            // UpDownCout
-            // 
-            this.UpDownCout.Location = new System.Drawing.Point(150, 17);
-            this.UpDownCout.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.UpDownCout.Name = "UpDownCout";
-            this.UpDownCout.Size = new System.Drawing.Size(120, 20);
-            this.UpDownCout.TabIndex = 77;
-            this.UpDownCout.Value = new decimal(new int[] {
-            5000,
-            0,
-            0,
-            0});
-            // 
-            // buttonGenerate
-            // 
-            this.buttonGenerate.Location = new System.Drawing.Point(12, 12);
-            this.buttonGenerate.Name = "buttonGenerate";
-            this.buttonGenerate.Size = new System.Drawing.Size(131, 26);
-            this.buttonGenerate.TabIndex = 76;
-            this.buttonGenerate.Text = "Сгенерировать";
-            this.buttonGenerate.UseVisualStyleBackColor = true;
-            this.buttonGenerate.Click += new System.EventHandler(this.buttonGenerate_Click);
-            // 
             // numericUpDown_Fov
             // 
-            this.numericUpDown_Fov.Location = new System.Drawing.Point(107, 308);
+            this.numericUpDown_Fov.Location = new System.Drawing.Point(448, 553);
             this.numericUpDown_Fov.Maximum = new decimal(new int[] {
             179,
             0,
@@ -412,7 +309,7 @@
             // checkBox_perspective
             // 
             this.checkBox_perspective.AutoSize = true;
-            this.checkBox_perspective.Location = new System.Drawing.Point(10, 308);
+            this.checkBox_perspective.Location = new System.Drawing.Point(351, 553);
             this.checkBox_perspective.Name = "checkBox_perspective";
             this.checkBox_perspective.Size = new System.Drawing.Size(93, 17);
             this.checkBox_perspective.TabIndex = 106;
@@ -424,9 +321,9 @@
             this.dataGridView.AllowUserToAddRows = false;
             this.dataGridView.AllowUserToDeleteRows = false;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Location = new System.Drawing.Point(10, 423);
+            this.dataGridView.Location = new System.Drawing.Point(10, 17);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(330, 189);
+            this.dataGridView.Size = new System.Drawing.Size(330, 595);
             this.dataGridView.TabIndex = 108;
             this.dataGridView.SelectionChanged += new System.EventHandler(this.comboBoxXYZ_SelectedIndexChanged);
             // 
@@ -440,7 +337,7 @@
             "31=>1",
             "57=>1",
             "25=>1"});
-            this.comboBoxX.Location = new System.Drawing.Point(160, 213);
+            this.comboBoxX.Location = new System.Drawing.Point(501, 458);
             this.comboBoxX.Name = "comboBoxX";
             this.comboBoxX.Size = new System.Drawing.Size(121, 21);
             this.comboBoxX.TabIndex = 109;
@@ -456,7 +353,7 @@
             "31=>1",
             "57=>1",
             "25=>1"});
-            this.comboBoxY.Location = new System.Drawing.Point(160, 245);
+            this.comboBoxY.Location = new System.Drawing.Point(501, 490);
             this.comboBoxY.Name = "comboBoxY";
             this.comboBoxY.Size = new System.Drawing.Size(121, 21);
             this.comboBoxY.TabIndex = 110;
@@ -472,7 +369,7 @@
             "31=>1",
             "57=>1",
             "25=>1"});
-            this.comboBoxZ.Location = new System.Drawing.Point(160, 276);
+            this.comboBoxZ.Location = new System.Drawing.Point(501, 521);
             this.comboBoxZ.Name = "comboBoxZ";
             this.comboBoxZ.Size = new System.Drawing.Size(121, 21);
             this.comboBoxZ.TabIndex = 111;
@@ -481,7 +378,7 @@
             // checkBox_normalize
             // 
             this.checkBox_normalize.AutoSize = true;
-            this.checkBox_normalize.Location = new System.Drawing.Point(160, 303);
+            this.checkBox_normalize.Location = new System.Drawing.Point(501, 548);
             this.checkBox_normalize.Name = "checkBox_normalize";
             this.checkBox_normalize.Size = new System.Drawing.Size(102, 17);
             this.checkBox_normalize.TabIndex = 112;
@@ -492,7 +389,7 @@
             // checkBox_plane
             // 
             this.checkBox_plane.AutoSize = true;
-            this.checkBox_plane.Location = new System.Drawing.Point(304, 217);
+            this.checkBox_plane.Location = new System.Drawing.Point(645, 462);
             this.checkBox_plane.Name = "checkBox_plane";
             this.checkBox_plane.Size = new System.Drawing.Size(81, 17);
             this.checkBox_plane.TabIndex = 113;
@@ -504,7 +401,7 @@
             this.checkBox_all.AutoSize = true;
             this.checkBox_all.Checked = true;
             this.checkBox_all.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_all.Location = new System.Drawing.Point(218, 400);
+            this.checkBox_all.Location = new System.Drawing.Point(346, 595);
             this.checkBox_all.Name = "checkBox_all";
             this.checkBox_all.Size = new System.Drawing.Size(110, 17);
             this.checkBox_all.TabIndex = 114;
@@ -513,31 +410,33 @@
             this.checkBox_all.UseWaitCursor = true;
             this.checkBox_all.CheckedChanged += new System.EventHandler(this.comboBoxXYZ_SelectedIndexChanged);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(347, 423);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(256, 256);
-            this.pictureBox1.TabIndex = 115;
-            this.pictureBox1.TabStop = false;
-            // 
             // checkBox_boxPlot
             // 
             this.checkBox_boxPlot.AutoSize = true;
-            this.checkBox_boxPlot.Location = new System.Drawing.Point(304, 247);
+            this.checkBox_boxPlot.Location = new System.Drawing.Point(645, 492);
             this.checkBox_boxPlot.Name = "checkBox_boxPlot";
-            this.checkBox_boxPlot.Size = new System.Drawing.Size(65, 17);
+            this.checkBox_boxPlot.Size = new System.Drawing.Size(70, 17);
             this.checkBox_boxPlot.TabIndex = 116;
-            this.checkBox_boxPlot.Text = "Box Plot";
+            this.checkBox_boxPlot.Text = "Графики";
             this.checkBox_boxPlot.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxXYZ
+            // 
+            this.checkBoxXYZ.AutoSize = true;
+            this.checkBoxXYZ.Location = new System.Drawing.Point(645, 527);
+            this.checkBoxXYZ.Name = "checkBoxXYZ";
+            this.checkBoxXYZ.Size = new System.Drawing.Size(46, 17);
+            this.checkBoxXYZ.TabIndex = 117;
+            this.checkBoxXYZ.Text = "Оси";
+            this.checkBoxXYZ.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1198, 704);
+            this.ClientSize = new System.Drawing.Size(1015, 639);
+            this.Controls.Add(this.checkBoxXYZ);
             this.Controls.Add(this.checkBox_boxPlot);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.checkBox_all);
             this.Controls.Add(this.checkBox_plane);
             this.Controls.Add(this.checkBox_normalize);
@@ -551,11 +450,9 @@
             this.Controls.Add(this.label_track);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.buttonSaveImg);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.numericUpDownRZ);
             this.Controls.Add(this.numericUpDownRY);
@@ -563,46 +460,32 @@
             this.Controls.Add(this.numericUpDownZ);
             this.Controls.Add(this.numericUpDownY);
             this.Controls.Add(this.numericUpDownX);
-            this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonLoad);
-            this.Controls.Add(this.UpDownCout);
-            this.Controls.Add(this.buttonGenerate);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Щербинин Григорий 201-325";
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRZ)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownZ)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.UpDownCout)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Fov)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.RadioButton radioButton_Dot;
         private SharpGL.OpenGLControl openGLControl;
-        private System.Windows.Forms.RadioButton radioButtonSpin;
-        private System.Windows.Forms.RadioButton radioButtonCube;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label_track;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Button buttonSaveImg;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown numericUpDownRZ;
         private System.Windows.Forms.NumericUpDown numericUpDownRY;
@@ -610,10 +493,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDownZ;
         private System.Windows.Forms.NumericUpDown numericUpDownY;
         private System.Windows.Forms.NumericUpDown numericUpDownX;
-        private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonLoad;
-        private System.Windows.Forms.NumericUpDown UpDownCout;
-        private System.Windows.Forms.Button buttonGenerate;
         private System.Windows.Forms.NumericUpDown numericUpDown_Fov;
         private System.Windows.Forms.CheckBox checkBox_perspective;
         private System.Windows.Forms.DataGridView dataGridView;
@@ -623,8 +503,8 @@
         private System.Windows.Forms.CheckBox checkBox_normalize;
         private System.Windows.Forms.CheckBox checkBox_plane;
         private System.Windows.Forms.CheckBox checkBox_all;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.CheckBox checkBox_boxPlot;
+        private System.Windows.Forms.CheckBox checkBoxXYZ;
     }
 }
 

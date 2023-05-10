@@ -364,22 +364,24 @@ namespace DVT_2020_L04_Graph
                 {
                     gl.Color((double)histogramXY[x, y] / max, 1 - (double)histogramXY[x, y] / max, 0.5);
                     gl.Vertex(((double)x - 4.5) / 5,
-                        ((double)histogramXY[x, y] / max) - 1.5,
+                        -((double)histogramXY[x, y] / max) + 1.5,
                         ((double)y - 4.5) / 5);
                     gl.Color((double)histogramXY[x + 1, y] / max, 1 - (double)histogramXY[x + 1, y] / max, 0.5);
                     gl.Vertex(((double)x - 3.5) / 5,
-                        ((double)histogramXY[x + 1, y] / max) - 1.5,
+                        -((double)histogramXY[x + 1, y] / max) + 1.5,
                         ((double)y - 4.5) / 5);
                     gl.Color((double)histogramXY[x + 1, y + 1] / max, 1 - (double)histogramXY[x + 1, y + 1] / max, 0.5);
                     gl.Vertex(((double)x - 3.5) / 5,
-                        ((double)histogramXY[x + 1, y + 1] / max) - 1.5,
+                        -((double)histogramXY[x + 1, y + 1] / max) + 1.5,
                         ((double)y - 3.5) / 5);
                     gl.Color((double)histogramXY[x, y + 1] / max, 1 - (double)histogramXY[x, y + 1] / max, 0.5);
                     gl.Vertex(((double)x - 4.5) / 5,
-                        ((double)histogramXY[x, y + 1] / max) - 1.5,
+                        -((double)histogramXY[x, y + 1] / max) + 1.5,
                         ((double)y - 3.5) / 5);
                 }
             }
+
+            gl.Color(1d, 1d, 1d);
             gl.End();
         }
 
