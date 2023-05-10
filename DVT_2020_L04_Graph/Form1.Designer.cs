@@ -61,6 +61,9 @@
             this.comboBoxZ = new System.Windows.Forms.ComboBox();
             this.checkBox_normalize = new System.Windows.Forms.CheckBox();
             this.checkBox_plane = new System.Windows.Forms.CheckBox();
+            this.checkBox_all = new System.Windows.Forms.CheckBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.checkBox_boxPlot = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.openGLControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -73,6 +76,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.UpDownCout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Fov)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // radioButton_Dot
@@ -422,8 +426,9 @@
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Location = new System.Drawing.Point(10, 423);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(318, 189);
+            this.dataGridView.Size = new System.Drawing.Size(330, 189);
             this.dataGridView.TabIndex = 108;
+            this.dataGridView.SelectionChanged += new System.EventHandler(this.comboBoxXYZ_SelectedIndexChanged);
             // 
             // comboBoxX
             // 
@@ -494,11 +499,46 @@
             this.checkBox_plane.Text = "Плоскость";
             this.checkBox_plane.UseVisualStyleBackColor = true;
             // 
+            // checkBox_all
+            // 
+            this.checkBox_all.AutoSize = true;
+            this.checkBox_all.Checked = true;
+            this.checkBox_all.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_all.Location = new System.Drawing.Point(218, 400);
+            this.checkBox_all.Name = "checkBox_all";
+            this.checkBox_all.Size = new System.Drawing.Size(110, 17);
+            this.checkBox_all.TabIndex = 114;
+            this.checkBox_all.Text = "Отобразить все ";
+            this.checkBox_all.UseVisualStyleBackColor = true;
+            this.checkBox_all.UseWaitCursor = true;
+            this.checkBox_all.CheckedChanged += new System.EventHandler(this.comboBoxXYZ_SelectedIndexChanged);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(347, 423);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(256, 256);
+            this.pictureBox1.TabIndex = 115;
+            this.pictureBox1.TabStop = false;
+            // 
+            // checkBox_boxPlot
+            // 
+            this.checkBox_boxPlot.AutoSize = true;
+            this.checkBox_boxPlot.Location = new System.Drawing.Point(304, 247);
+            this.checkBox_boxPlot.Name = "checkBox_boxPlot";
+            this.checkBox_boxPlot.Size = new System.Drawing.Size(65, 17);
+            this.checkBox_boxPlot.TabIndex = 116;
+            this.checkBox_boxPlot.Text = "Box Plot";
+            this.checkBox_boxPlot.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1198, 620);
+            this.ClientSize = new System.Drawing.Size(1198, 704);
+            this.Controls.Add(this.checkBox_boxPlot);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.checkBox_all);
             this.Controls.Add(this.checkBox_plane);
             this.Controls.Add(this.checkBox_normalize);
             this.Controls.Add(this.comboBoxZ);
@@ -542,6 +582,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.UpDownCout)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_Fov)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -581,6 +622,9 @@
         private System.Windows.Forms.ComboBox comboBoxZ;
         private System.Windows.Forms.CheckBox checkBox_normalize;
         private System.Windows.Forms.CheckBox checkBox_plane;
+        private System.Windows.Forms.CheckBox checkBox_all;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.CheckBox checkBox_boxPlot;
     }
 }
 

@@ -7,6 +7,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.Xml.Linq;
 
 namespace DVT_2020_L04_Graph
 {
@@ -16,6 +18,9 @@ namespace DVT_2020_L04_Graph
         DataTable CANdataTable;
         DataTable dataTable;
         int[,] histogramXY;
+        Bitmap PlotBox;
+        Bitmap Line;
+        Bitmap allLine;
         public Form1()
         {
             InitializeComponent();
@@ -26,6 +31,8 @@ namespace DVT_2020_L04_Graph
         {
             // Создаем экземпляр
             gl = this.openGLControl.OpenGL;
+
+
             // Очистка экрана и буфера глубин
             gl.Clear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
             // Сбрасываем модельно-видовую матрицу
@@ -34,7 +41,7 @@ namespace DVT_2020_L04_Graph
             // Двигаем перо вглубь экрана
             double camX = (double)numericUpDownX.Value;
             double camY = (double)numericUpDownY.Value;
-            double camZ = (double)numericUpDownZ.Value;
+            double camZ = -(double)numericUpDownZ.Value;
 
             if (checkBox_perspective.Checked)
             {
@@ -49,7 +56,7 @@ namespace DVT_2020_L04_Graph
                 gl.Ortho(-w, w, -h, h, -10000, 10000);
             }
 
-            gl.Translate(camX, camY, -camZ);
+            gl.Translate(camX, camY, camZ);
             // Вращаем точки 
             float angleX = (float)numericUpDownRX.Value /** Math.PI / 180.0f*/;
             float angleY = (float)numericUpDownRY.Value /** Math.PI / 180.0f*/;
@@ -73,12 +80,24 @@ namespace DVT_2020_L04_Graph
 
             if (checkBox_plane.Checked && histogramXY != null)
             {
-                Draw.DrawHistogramXY(gl, histogramXY);
+                Draw.Histogram(gl, histogramXY);
             }
 
             //Draw.SquarePlane(gl, 2, 1.25, 0, 0, "x", Draw2D.Triangle(Color.Red));
-            //Draw.SquarePlane(gl, 2, 0, 1.25, 0, "y", Draw2D.Triangle(Color.Green));
+            if (PlotBox != null && checkBox_boxPlot.Checked)
+            {
+                Draw.SquarePlane(gl, 2, 1.25, 0, 0, "x", PlotBox);
+            }
+            if (Line != null && checkBox_boxPlot.Checked)
+            {
+                Draw.SquarePlane(gl, 2, 0, 0, 1.25, "z", Line);
+            }
+            if (allLine != null && checkBox_boxPlot.Checked)
+            {
+                Draw.SquarePlane(gl, 2, 0, 1.25, 0, "y", allLine);
+            }
             //Draw.SquarePlane(gl, 2, 0, 0, 1.25, "z", Draw2D.Triangle(Color.Blue));
+            //Draw.SquarePlane(gl, 2, 0, 1.25, 0, "y", PlotBox);
 
             Draw.XYZ(gl);
 
@@ -163,7 +182,7 @@ namespace DVT_2020_L04_Graph
                     dataGridView.Columns["31=>1"].Width = 40;
                     dataGridView.Columns["57=>1"].Width = 40;
                     dataGridView.Columns["25=>1"].Width = 40;
-                    dataGridView.RowHeadersWidth = 10;
+                    dataGridView.RowHeadersWidth = 30;
                     // DrawCAN(frames);
 
                 }
@@ -356,8 +375,36 @@ namespace DVT_2020_L04_Graph
                     Zmax = (double)(byte)dataTable.Select().Min(row1 => row1[Zname]);
                     Zmin = (double)(byte)dataTable.Select().Max(row1 => row1[Zname]);
                 }
+                List<double[]> lineXY = new List<double[]>();
+                if (checkBox_all.Checked)
+                {
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        DataToPoint(row);
+                    }
+                }
+                else
+                {
+                    DataTable SelectTable = new DataTable();
+                    foreach (DataGridViewColumn column in dataGridView.Columns)
+                    {
+                        SelectTable.Columns.Add(column.HeaderText, column.ValueType);
+                    }
+                    foreach (DataGridViewRow row in dataGridView.SelectedRows)
+                    {
+                        DataRow newRow = SelectTable.Rows.Add();
+                        foreach (DataGridViewCell cell in row.Cells)
+                        {
+                            newRow[cell.ColumnIndex] = cell.Value;
+                        }
+                    }
+                    foreach (DataRow row in SelectTable.Rows)
+                    {
+                        DataToPoint(row);
+                    }
+                }
 
-                foreach (DataRow row in dataTable.Rows)
+                void DataToPoint(DataRow row)
                 {
                     double X = 0;
                     double Y = 0;
@@ -384,11 +431,212 @@ namespace DVT_2020_L04_Graph
                     if (z < 10 && z >= 0 &&
                         x < 10 && x >= 0)
                     {
-                        histogramXY[x,z]++;
+                        histogramXY[x, z]++;
                     }
+                }
+                PlotBox = BoxPlot();
+                Line = Projection();
+                allLine = AllLine();
+            }
+
+        }
+
+        private Bitmap AllLine()
+        {
+            // Создаем новый объект Chart
+            var chart = new Chart();
+
+            Series boxPlotSeries = new Series("BoxPlotSeries");
+            boxPlotSeries.ChartType = SeriesChartType.Line;
+            chart.Series.Add(boxPlotSeries);
+            boxPlotSeries.BorderWidth = 3;
+            boxPlotSeries.Color = Color.DarkOrange;
+
+            string Xname = comboBoxX.SelectedItem?.ToString();
+            string Yname = comboBoxY.SelectedItem?.ToString();
+            if (checkBox_all.Checked)
+            {
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    AddData(row);
+                }
+            }
+            else
+            {
+                DataTable SelectTable = new DataTable();
+                foreach (DataGridViewColumn column in dataGridView.Columns)
+                {
+                    SelectTable.Columns.Add(column.HeaderText, column.ValueType);
+                }
+                foreach (DataGridViewRow row in dataGridView.SelectedRows)
+                {
+                    DataRow newRow = SelectTable.Rows.Add();
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        newRow[cell.ColumnIndex] = cell.Value;
+                    }
+                }
+                foreach (DataRow row in SelectTable.Rows)
+                {
+                    AddData(row);
                 }
             }
 
+            void AddData(DataRow row)
+            {
+                boxPlotSeries.Points.Add(new DataPoint((double)(byte)row[Xname], (double)(byte)row[Yname]));
+            }
+
+            chart.ChartAreas.Add("ChartArea1");
+            chart.ChartAreas[0].Visible = true;
+            chart.ChartAreas[0].Position.Auto = true;
+
+            // Настраиваем общие параметры графика
+            chart.Size = new Size(256, 256);
+            //chart.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
+            //chart.ChartAreas[0].AxisY.LabelStyle.Enabled = false;
+
+            //chart.ChartAreas[0].AxisY.Minimum = -1;
+            //chart.ChartAreas[0].AxisY.Maximum = 1;
+            //chart.ChartAreas[0].AxisX.Minimum = -1;
+            //chart.ChartAreas[0].AxisX.Maximum = 1;
+
+            // Генерируем изображение графика
+            Bitmap bitmap = new Bitmap(256, 256);
+            Graphics g = Graphics.FromImage(bitmap);
+            g.Clear(Color.Black);
+            chart.DrawToBitmap(bitmap, new Rectangle(0, 0, chart.Width, chart.Height));
+
+            bitmap.RotateFlip(RotateFlipType.Rotate180FlipX);
+
+            return bitmap;
+
+        }
+        private Bitmap Projection()
+        {
+            // Создаем новый объект Chart
+            var chart = new Chart();
+
+            Series boxPlotSeries = new Series("BoxPlotSeries");
+            boxPlotSeries.ChartType = SeriesChartType.Line;
+            chart.Series.Add(boxPlotSeries);
+            boxPlotSeries.BorderWidth = 3;
+            boxPlotSeries.Color = Color.DarkOrange;
+            foreach (Point3D point in points)
+            {
+                if (point.y > -1&& point.y > -1)
+                {
+                    boxPlotSeries.Points.Add(new DataPoint(point.x, point.y));
+                }
+
+            }
+            chart.ChartAreas.Add("ChartArea1");
+            chart.ChartAreas[0].Visible = true;
+            chart.ChartAreas[0].Position.Auto = true;
+
+            // Настраиваем общие параметры графика
+            chart.Size = new Size(256, 256);
+            chart.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
+            chart.ChartAreas[0].AxisY.LabelStyle.Enabled = false;
+
+            chart.ChartAreas[0].AxisY.Minimum = -1;
+            chart.ChartAreas[0].AxisY.Maximum = 1;
+            chart.ChartAreas[0].AxisX.Minimum = -1;
+            chart.ChartAreas[0].AxisX.Maximum = 1;
+
+            // Генерируем изображение графика
+            Bitmap bitmap = new Bitmap(256, 256);
+            Graphics g = Graphics.FromImage(bitmap);
+            g.Clear(Color.Black);
+            chart.DrawToBitmap(bitmap, new Rectangle(0, 0, chart.Width, chart.Height));
+
+            bitmap.RotateFlip(RotateFlipType.Rotate180FlipX);
+
+            return bitmap;
+
+        }
+
+
+        private Bitmap BoxPlot()
+        {
+            List<double>[] listsY = new List<double>[10];
+            for (int i = 0; i < listsY.Length; i++)
+            {
+                listsY[i] = new List<double>();
+            }
+            foreach (Point3D point in points)
+            {
+                int z = (int)((-point.z + 1) * 5);
+                if (z == 10) { z = 9; }
+                listsY[z].Add(point.y);
+            }
+
+
+            List<double[]> yValues = new List<double[]>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                var listY = listsY[i];
+                listY.Sort();
+                int count = listY.Count;
+                int medianIndex = count / 2;
+                int q1Index = count / 4;
+                int q3Index = count - q1Index - 1;
+                if (listY.Count != 0)
+                {
+                    double min = listY.Min();
+                    double max = listY.Max();
+                    double average = listY.Average();
+                    double median = count % 2 == 0 ? (listY[medianIndex] + listY[medianIndex - 1]) / 2 : listY[medianIndex];
+                    double Q1 = count % 4 == 0 ? (listY[q1Index] + listY[q1Index - 1]) / 2 : listY[q1Index];
+                    double Q3 = count % 4 == 0 ? (listY[q3Index] + listY[q3Index + 1]) / 2 : listY[q3Index];
+                    yValues.Add(new double[]{
+                            min,max,
+                            Q1, Q3,
+                            average,median});
+                }
+                else
+                {
+                    yValues.Add(new double[] { 0, 0, 0, 0, 0, 0 });
+                }
+
+            }
+
+            // Создаем новый объект Chart
+            var chart = new Chart();
+
+            Series boxPlotSeries = new Series("BoxPlotSeries");
+            boxPlotSeries.ChartType = SeriesChartType.BoxPlot;
+            chart.Series.Add(boxPlotSeries);
+            boxPlotSeries.BorderWidth = 3;
+            boxPlotSeries.Color = Color.DarkOrange;
+            for (int i = 0; i < yValues.Count; i++)
+            {
+                boxPlotSeries.Points.Add(new DataPoint(i, yValues[i]));
+            }
+            chart.ChartAreas.Add("ChartArea1");
+            chart.ChartAreas[0].Visible = true;
+            chart.ChartAreas[0].Position.Auto = true;
+
+            // Настраиваем общие параметры графика
+            chart.Size = new Size(256, 256);
+            chart.ChartAreas[0].AxisX.LabelStyle.Enabled = false;
+            chart.ChartAreas[0].AxisY.LabelStyle.Enabled = false;
+
+            chart.ChartAreas[0].AxisY.Minimum = -1;
+            chart.ChartAreas[0].AxisY.Maximum = 1;
+            chart.ChartAreas[0].AxisX.Minimum = 0;
+            chart.ChartAreas[0].AxisX.Maximum = 10;
+
+            // Генерируем изображение графика
+            Bitmap bitmap = new Bitmap(256, 256);
+            Graphics g = Graphics.FromImage(bitmap);
+            g.Clear(Color.Black);
+            chart.DrawToBitmap(bitmap, new Rectangle(0, 0, chart.Width, chart.Height));
+
+            bitmap.RotateFlip(RotateFlipType.Rotate270FlipX);
+
+            return bitmap;
         }
     }
 }

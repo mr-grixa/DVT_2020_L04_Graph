@@ -188,6 +188,7 @@ namespace DVT_2020_L04_Graph
             gl.TexParameter(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_WRAP_S, OpenGL.GL_CLAMP_TO_EDGE);
             gl.TexParameter(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_WRAP_T, OpenGL.GL_CLAMP_TO_EDGE);
 
+
             // загрузка данных в текстуру
             BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             gl.TexImage2D(OpenGL.GL_TEXTURE_2D, 0, OpenGL.GL_RGBA, bitmap.Width, bitmap.Height, 0, OpenGL.GL_BGRA, OpenGL.GL_UNSIGNED_BYTE, data.Scan0);
@@ -225,7 +226,7 @@ namespace DVT_2020_L04_Graph
             gl.End();
             gl.Disable(OpenGL.GL_TEXTURE_2D);
             gl.DeleteTextures(1, textures);
-            bitmap.Dispose();
+            //bitmap.Dispose();
 
         }
 
@@ -381,47 +382,6 @@ namespace DVT_2020_L04_Graph
             }
             gl.End();
         }
-
-        public static void DrawHistogramXY(OpenGL gl, int[,] histogramXY)
-        {
-            gl.Begin(OpenGL.GL_QUADS);
-
-            // Размеры столбцов гистограммы
-            double columnWidth = 0.1;
-            double columnHeight = 0.1;
-
-            // Цвет столбцов гистограммы
-            double[] columnColor = { 0.0, 0.0, 1.0 }; // синий
-
-            // Проходим по всем столбцам гистограммы
-            for (int x = 0; x < histogramXY.GetLength(0); x++)
-            {
-                for (int z = 0; z < histogramXY.GetLength(1); z++)
-                {
-                    int count = histogramXY[x, z];
-
-                    // Координаты вершин столбца гистограммы
-                    double x1 = x * columnWidth;
-                    double y1 = 0.0;
-                    double z1 = z * columnWidth;
-                    double x2 = x1 + columnWidth;
-                    double y2 = count * columnHeight;
-                    double z2 = z1 + columnWidth;
-
-                    // Устанавливаем цвет столбца гистограммы
-                    gl.Color(columnColor[0], columnColor[1], columnColor[2]);
-
-                    // Рисуем столбец гистограммы
-                    gl.Vertex(x1, y1, z1);
-                    gl.Vertex(x2, y1, z1);
-                    gl.Vertex(x2, y2, z1);
-                    gl.Vertex(x1, y2, z1);
-                }
-            }
-
-            gl.End();
-        }
-
 
         public static void XYZ(OpenGL gl)
         {
